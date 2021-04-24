@@ -11,7 +11,7 @@ jobs:
       - name: 'Install dependency'
         run: apt install git make curl binutils -y
       - name: 'Checkout codes'
-        uses: action/checkout@v1
+        uses: action/checkout@main
       - name: 'Obtain pikvm codes'
         run: git clone https://github.com/pikvm/os
       - name: 'Build pikvm for rpi4'
