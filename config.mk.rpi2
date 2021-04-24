@@ -1,0 +1,26 @@
+# rpi3 for Raspberry Pi 3; rpi2 for the version 2, zerow for ZeroW
+BOARD = rpi2
+
+# Hardware configuration
+PLATFORM = v0-hdmi
+
+# Target hostname
+HOSTNAME = pikvm
+
+# ru_RU, etc. UTF-8 only
+LOCALE = en_US
+
+# See /usr/share/zoneinfo
+TIMEZONE = Asia/Shanghai
+
+# For SSH root user
+ROOT_PASSWD = hell0Pi3
+
+# Web UI credentials: user=admin, password=<this>
+WEBUI_ADMIN_PASSWD = hell0Pi3
+
+# IPMI credentials: user=admin, password=<this>
+IPMI_ADMIN_PASSWD = hell0Pi3
+
+# SD card device
+CARD = /dev/mmcblk0
