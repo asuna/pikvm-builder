@@ -22,6 +22,7 @@ jobs:
           sudo make image
       - name: 'Build pikvm for pizerow'
         run: |
+          echo $PWD
           cd os
           cp ../config.mk.rpi0 ./config.mk
           make os
