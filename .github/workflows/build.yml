@@ -5,13 +5,11 @@ on:
   schedule:
     - cron: '0 0 * * *'
 jobs:
-  bot:
+  rpi4:
     runs-on: ubuntu-latest
     env:
       ACTIONS_RUNNER_DEBUG: true
     steps:
-      - name: 'Install dependency'
-        run: sudo apt install git make curl binutils -y
       - name: 'Checkout codes'
         uses: actions/checkout@main
       - name: 'Obtain pikvm codes'
@@ -22,6 +20,22 @@ jobs:
           cp ../config.mk.rpi4 ./config.mk
           make os
           sudo make image
+      - name: 'Clean install dependencies and build'
+        run: ls | grep -v images | xargs -i sudo rm -rf {}
+      - name: 'Upload artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: pikvm-images
+          path: images/
+  pizerow:
+    runs-on: ubuntu-latest
+    env:
+      ACTIONS_RUNNER_DEBUG: true
+    steps:
+      - name: 'Checkout codes'
+        uses: actions/checkout@main
+      - name: 'Obtain pikvm codes'
+        run: git clone https://github.com/pikvm/os
       - name: 'Build pikvm for pizerow'
         run: |
           cd os
