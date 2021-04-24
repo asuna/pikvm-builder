@@ -27,9 +27,9 @@ jobs:
           make image
       - name: 'Upload artifact'
         uses: actions/upload-artifact@v2
-          with:
-            name: pikvm-images
-            path: images/
+        with:
+          name: pikvm-images
+          path: images/
       - name: 'Clean install dependencies and build'
         run: |
           cd .. && rm -rf *
