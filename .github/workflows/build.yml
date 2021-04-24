@@ -22,16 +22,14 @@ jobs:
           sudo make image
       - name: 'Build pikvm for pizerow'
         run: |
-          echo $PWD
           cd os
           cp ../config.mk.rpi0 ./config.mk
           make os
           sudo make image
+      - name: 'Clean install dependencies and build'
+        run: ls | grep -v images | xargs -i sudo rm -rf {}
       - name: 'Upload artifact'
         uses: actions/upload-artifact@v2
         with:
           name: pikvm-images
           path: images/
-      - name: 'Clean install dependencies and build'
-        run: |
-          cd .. && sudo rm -rf *
