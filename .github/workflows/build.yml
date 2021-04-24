@@ -1,0 +1,35 @@
+name: 'build pikvm images'
+
+on:
+  push:
+  schedule:
+    - cron: '0 0 * * *'
+jobs:
+  bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Install dependency'
+        run: apt install git make curl binutils -y
+      - name: 'Checkout codes'
+        uses: action/checkout@v1
+      - name: 'Obtain pikvm codes'
+        run: git clone https://github.com/pikvm/os
+      - name: 'Build pikvm for rpi4'
+        run: |
+          cd os
+          cp ../config.mk.rpi4 ./config.mk
+          make os
+          make image
+      - name: 'Build pikvm for pizerow'
+        run: |
+          cp ../config.mk.rpi0 ./config.mk
+          make os
+          make image
+      - name: 'Upload artifact'
+        uses: actions/upload-artifact@v2
+          with:
+            name: pikvm-images
+            path: images/
+      - name: 'Clean install dependencies and build'
+        run: |
+          cd .. && rm -rf *
