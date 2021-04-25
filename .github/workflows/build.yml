@@ -21,12 +21,14 @@ jobs:
           make os
           sudo make image
       - name: 'Clean install dependencies and build'
-        run: ls | grep -v images | xargs -i sudo rm -rf {}
+        run: |
+          cd os
+          ls | grep -v images | xargs -i sudo rm -rf {}
       - name: 'Upload artifact'
         uses: actions/upload-artifact@v2
         with:
           name: pikvm-images
-          path: images/
+          path: ./os/images/
   pizerow:
     runs-on: ubuntu-latest
     env:
@@ -43,9 +45,11 @@ jobs:
           make os
           sudo make image
       - name: 'Clean install dependencies and build'
-        run: ls | grep -v images | xargs -i sudo rm -rf {}
+        run: |
+          cd os
+          ls | grep -v images | xargs -i sudo rm -rf {}
       - name: 'Upload artifact'
         uses: actions/upload-artifact@v2
         with:
           name: pikvm-images
-          path: images/
+          path: ./os/images/
