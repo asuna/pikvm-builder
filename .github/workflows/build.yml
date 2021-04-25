@@ -5,7 +5,7 @@ on:
   schedule:
     - cron: '0 0 * * *'
 jobs:
-  rpi4:
+  rpi4-hdmi:
     runs-on: ubuntu-latest
     env:
       ACTIONS_RUNNER_DEBUG: true
@@ -27,9 +27,9 @@ jobs:
       - name: 'Upload artifact'
         uses: actions/upload-artifact@v2
         with:
-          name: pikvm-images
           path: ./os/images/
-  pizerow:
+          if-no-files-found: error
+  pizerow-hdmi:
     runs-on: ubuntu-latest
     env:
       ACTIONS_RUNNER_DEBUG: true
@@ -51,5 +51,55 @@ jobs:
       - name: 'Upload artifact'
         uses: actions/upload-artifact@v2
         with:
-          name: pikvm-images
           path: ./os/images/
+          if-no-files-found: error
+  rpi4-usb:
+    runs-on: ubuntu-latest
+    env:
+      ACTIONS_RUNNER_DEBUG: true
+    steps:
+      - name: 'Checkout codes'
+        uses: actions/checkout@main
+      - name: 'Obtain pikvm codes'
+        run: git clone https://github.com/pikvm/os
+      - name: 'Build pikvm for rpi4'
+        run: |
+          cd os
+          cp ../config.mk.rpi4.usb ./config.mk
+          make os
+          sudo make image
+      - name: 'Clean install dependencies and build'
+        run: |
+          cd os
+          ls | grep -v images | xargs -i sudo rm -rf {}
+      - name: 'Upload artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          path: ./os/images/
+          if-no-files-found: error
+          retention-days: 30
+  pizerow-usb:
+    runs-on: ubuntu-latest
+    env:
+      ACTIONS_RUNNER_DEBUG: true
+    steps:
+      - name: 'Checkout codes'
+        uses: actions/checkout@main
+      - name: 'Obtain pikvm codes'
+        run: git clone https://github.com/pikvm/os
+      - name: 'Build pikvm for pizerow'
+        run: |
+          cd os
+          cp ../config.mk.rpi0.usb ./config.mk
+          make os
+          sudo make image
+      - name: 'Clean install dependencies and build'
+        run: |
+          cd os
+          ls | grep -v images | xargs -i sudo rm -rf {}
+      - name: 'Upload artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          path: ./os/images/
+          if-no-files-found: error
+          retention-days: 30
