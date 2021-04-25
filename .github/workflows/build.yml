@@ -5,6 +5,14 @@ on:
   schedule:
     - cron: '10 16 * * *'
 jobs:
+  clear-artifacts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Clear artifacts'
+        uses: kolpav/purge-artifacts-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          expire-in: 10mins
   rpi4-hdmi:
     runs-on: ubuntu-latest
     env:
@@ -87,34 +95,6 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: pikvm-rpi4-usbhdmi
-          path: ./os/images/*${{ steps.date.outputs.date }}*
-          if-no-files-found: warn
-          retention-days: 30
-  pizerow-usb:
-    runs-on: ubuntu-latest
-    env:
-      ACTIONS_RUNNER_DEBUG: true
-    steps:
-      - name: 'Set timezone to Asia/Shanghai'
-        run: sudo timedatectl set-timezone 'Asia/Shanghai'
-      - name: 'Checkout codes'
-        uses: actions/checkout@main
-      - name: 'Obtain pikvm codes'
-        run: git clone https://github.com/pikvm/os
-      - name: 'Build pikvm for pizerow'
-        run: |
-          cd os
-          cp ../config.mk.rpi0w.usb ./config.mk
-          make os
-          sudo make image
-      - name: 'Clean install dependencies and build'
-        run: |
-          cd os
-          ls | grep -v images | xargs -i sudo rm -rf {}
-      - name: 'Upload artifact'
-        uses: actions/upload-artifact@v2
-        with:
-          name: pikvm-rpi0w-usbhdmi
           path: ./os/images/*${{ steps.date.outputs.date }}*
           if-no-files-found: warn
           retention-days: 30
