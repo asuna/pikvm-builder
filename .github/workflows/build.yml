@@ -4,11 +4,12 @@ on:
   push:
   schedule:
     - cron: '0 0 * * *'
+defaults:
+  runs-on: ubuntu-latest
+  env:
+    ACTIONS_RUNNER_DEBUG: true
 jobs:
   rpi4:
-    runs-on: ubuntu-latest
-    env:
-      ACTIONS_RUNNER_DEBUG: true
     steps:
       - name: 'Checkout codes'
         uses: actions/checkout@main
@@ -30,9 +31,6 @@ jobs:
           name: pikvm-images
           path: ./os/images/
   pizerow:
-    runs-on: ubuntu-latest
-    env:
-      ACTIONS_RUNNER_DEBUG: true
     steps:
       - name: 'Checkout codes'
         uses: actions/checkout@main
