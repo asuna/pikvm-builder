@@ -5,14 +5,6 @@ on:
   schedule:
     - cron: '10 16 * * *'
 jobs:
-  clear-artifacts:
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Clear artifacts'
-        uses: kolpav/purge-artifacts-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          expire-in: 10mins
   rpi4-hdmi:
     runs-on: ubuntu-latest
     env:
