@@ -4,15 +4,14 @@ on:
   push:
   schedule:
     - cron: '10 16 * * *'
-defaults:
-  run: |
-    sudo timedatectl set-timezone 'Asia/Shanghai'
 jobs:
   rpi4-hdmi:
     runs-on: ubuntu-latest
     env:
       ACTIONS_RUNNER_DEBUG: true
     steps:
+      - name: 'Set timezone to Asia/Shanghai'
+        run: sudo timedatectl set-timezone 'Asia/Shanghai'
       - name: 'Get current date'
         id: date
         run: echo "::set-output name=date::$(date +'%Y%m%d')"
@@ -41,6 +40,8 @@ jobs:
     env:
       ACTIONS_RUNNER_DEBUG: true
     steps:
+      - name: 'Set timezone to Asia/Shanghai'
+        run: sudo timedatectl set-timezone 'Asia/Shanghai'
       - name: 'Checkout codes'
         uses: actions/checkout@main
       - name: 'Obtain pikvm codes'
@@ -66,6 +67,8 @@ jobs:
     env:
       ACTIONS_RUNNER_DEBUG: true
     steps:
+      - name: 'Set timezone to Asia/Shanghai'
+        run: sudo timedatectl set-timezone 'Asia/Shanghai'
       - name: 'Checkout codes'
         uses: actions/checkout@main
       - name: 'Obtain pikvm codes'
@@ -92,6 +95,8 @@ jobs:
     env:
       ACTIONS_RUNNER_DEBUG: true
     steps:
+      - name: 'Set timezone to Asia/Shanghai'
+        run: sudo timedatectl set-timezone 'Asia/Shanghai'
       - name: 'Checkout codes'
         uses: actions/checkout@main
       - name: 'Obtain pikvm codes'
