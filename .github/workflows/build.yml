@@ -96,3 +96,64 @@ jobs:
           path: ./os/images/*${{ steps.date.outputs.date }}*
           if-no-files-found: warn
           retention-days: 30
+  rpi3-hdmi:
+    runs-on: ubuntu-latest
+    env:
+      ACTIONS_RUNNER_DEBUG: true
+    steps:
+      - name: 'Set timezone to Asia/Shanghai'
+        run: sudo timedatectl set-timezone 'Asia/Shanghai'
+      - name: 'Get current date'
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y%m%d')"
+      - name: 'Checkout codes'
+        uses: actions/checkout@main
+      - name: 'Obtain pikvm codes'
+        run: git clone https://github.com/pikvm/os
+      - name: 'Build pikvm for rpi4'
+        run: |
+          cd os
+          cp ../config.mk.rpi3 ./config.mk
+          make os
+          sudo make image
+      - name: 'Clean install dependencies and build'
+        run: |
+          cd os
+          ls | grep -v images | xargs -i sudo rm -rf {}
+      - name: 'Upload artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: pikvm-rpi3-hdmi
+          path: ./os/images/*${{ steps.date.outputs.date }}*
+          if-no-files-found: warn
+  rpi3-usb:
+    runs-on: ubuntu-latest
+    env:
+      ACTIONS_RUNNER_DEBUG: true
+    steps:
+      - name: 'Set timezone to Asia/Shanghai'
+        run: sudo timedatectl set-timezone 'Asia/Shanghai'
+      - name: 'Get current date'
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y%m%d')"
+      - name: 'Checkout codes'
+        uses: actions/checkout@main
+      - name: 'Obtain pikvm codes'
+        run: git clone https://github.com/pikvm/os
+      - name: 'Build pikvm for rpi4'
+        run: |
+          cd os
+          cp ../config.mk.rpi3.usb ./config.mk
+          make os
+          sudo make image
+      - name: 'Clean install dependencies and build'
+        run: |
+          cd os
+          ls | grep -v images | xargs -i sudo rm -rf {}
+      - name: 'Upload artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: pikvm-rpi3-usbhdmi
+          path: ./os/images/*${{ steps.date.outputs.date }}*
+          if-no-files-found: warn
+          retention-days: 30
