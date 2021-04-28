@@ -110,7 +110,7 @@ jobs:
         uses: actions/checkout@main
       - name: 'Obtain pikvm codes'
         run: git clone https://github.com/pikvm/os
-      - name: 'Build pikvm for rpi4'
+      - name: 'Build pikvm for rpi3'
         run: |
           cd os
           cp ../config.mk.rpi3 ./config.mk
@@ -140,7 +140,7 @@ jobs:
         uses: actions/checkout@main
       - name: 'Obtain pikvm codes'
         run: git clone https://github.com/pikvm/os
-      - name: 'Build pikvm for rpi4'
+      - name: 'Build pikvm for rpi3'
         run: |
           cd os
           cp ../config.mk.rpi3.usb ./config.mk
